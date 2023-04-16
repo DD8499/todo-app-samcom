@@ -18,17 +18,17 @@ const TodoList = () => {
 
     const sortFunc = (todo) => {
         if (sortBy === 'taskName') {
-            return todo?.sort((a, b) => a?.taskname.localeCompare(b?.taskName))
+            return todo?.sort((a, b) => a?.taskname?.localeCompare(b?.taskName))
         }
         else if (sortBy === 'priority') {
-            return todo?.sort((a, b) => a?.priority.localeCompare(b?.priority))
+            return todo?.sort((a, b) => a?.priority?.localeCompare(b?.priority))
         }
         else if (sortBy === 'date') {
             return todo?.sort((a, b) => new Date(a?.date) - new Date(b?.date))
         }
     }
     const sortData = sortFunc(todos)
-    const mainData = searchData ? searchData : todos
+    const mainData = searchData ? searchData : sortData
     return (
         <div>
             <div className='filters'>

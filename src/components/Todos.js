@@ -52,7 +52,6 @@ const Todos = () => {
         setTodos(
             todos?.map((item) => {
                 if (item?.id === id) {
-                    console.log(!item?.completed, 'item?.completed')
                     return {
                         ...item,
                         completed: !item?.completed
@@ -61,7 +60,6 @@ const Todos = () => {
                 return item
             })
         )
-        console.log(id)
     }
 
     useEffect(() => {

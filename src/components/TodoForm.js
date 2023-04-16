@@ -4,8 +4,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import useTodoContext from '../hooks/useTodoContext';
-import { Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import '../App.css'
+import * as Yup from 'yup'
 
 
 const TodoForm = () => {
@@ -22,6 +23,11 @@ const TodoForm = () => {
         boxShadow: 24,
         p: 4,
     };
+
+    const validationSchema = Yup.object().shape({
+        taskName: Yup.string().required('Task Name is required'),
+        date: Yup.string().required('Date is required')
+    })
 
     const initialValue = {
         taskName: updateData?.taskName || '',
@@ -47,14 +53,16 @@ const TodoForm = () => {
 
                     <Formik
                         initialValues={initialValue}
+                        validationSchema={validationSchema}
                         onSubmit={(value) => edit ? editTodo(value) : handleSubmit(value)}
                     >
-                        {(value) => (
+                        {({ errors }) => (
                             <Form>
                                 <div className='form'>
                                     <div className='form-input'>
                                         <label>Task Name</label>
                                         <Field name='taskName' as='input' />
+                                        {errors?.taskName && <p className='error'>{errors?.taskName}</p>}
                                     </div>
                                     <div className='form-input'>
                                         <label>Task Priority</label>
@@ -67,6 +75,8 @@ const TodoForm = () => {
                                     <div className='form-input'>
                                         <label>Date</label>
                                         <Field name='date' type='date' />
+                                        {/* <ErrorMessage name='date' style={{textColor : 'red'}} /> */}
+                                        {errors?.date && <p className='error'>{errors?.date}</p>}
                                     </div>
                                 </div>
                                 <Button variant='contained' type='submit' >{edit ? 'Update Task' : 'Create Task'}</Button>
